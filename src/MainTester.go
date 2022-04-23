@@ -30,6 +30,8 @@ func main() {
 
 	// handle route homepage(root)
 	mux.HandleFunc("/", handler.HomeHandler)
+	mux.HandleFunc("/inputPenyakit", handler.GetInputPenyakitHandler)
+	mux.HandleFunc("/processInput", handler.PostPenyakitHandler)
 
 	log.Println("Starting web on port 8080")
 
