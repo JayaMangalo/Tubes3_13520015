@@ -5,11 +5,11 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
+	"main/src/connector"
 	"net/http"
 	"os"
 	"path"
 	"path/filepath"
-	"strconv"
 )
 
 func GetInputPenyakitHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +40,6 @@ func PostPenyakitHandler(w http.ResponseWriter, r *http.Request) {
 		uploadedFile, handler, err := r.FormFile("file")
 
 		filename := handler.Filename
-		log.Println(filename)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -70,7 +69,8 @@ func PostPenyakitHandler(w http.ResponseWriter, r *http.Request) {
 
 		tempFile.Write(fileBytes)
 
-		fmt.Fprintf(w, "Sucessfully uploaded file")
+		http.Redirect(w, r, "/", http.StatusFound)
+		//fmt.Fprintf(w, "Sucessfully uploaded file")
 	}
 
 }
@@ -106,16 +106,22 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // mengambil query string
-func ProductHandler(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-
-	idNumb, err := strconv.Atoi(id)
-
-	if err != nil || idNumb < 1 {
-		http.NotFound(w, r)
+func DiagnosisHandler(w http.ResponseWriter, r *http.Request) {
+	data := connector.GetDataOrang()
+	tmpl, err := template.ParseFiles(path.Join("views", "tes.html"))
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "Product page : %d", idNumb)
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func fileNameWithoutExtSliceNotation(fileName string) string {
