@@ -26,12 +26,16 @@ func main() {
 		println(index)
 	*/
 
+	// TES NGAMBIL DATA DARI DATABASE
+	//connector.GetDataOrang()
+
 	mux := http.NewServeMux()
 
 	// handle route homepage(root)
 	mux.HandleFunc("/", handler.HomeHandler)
 	mux.HandleFunc("/inputPenyakit", handler.GetInputPenyakitHandler)
 	mux.HandleFunc("/processInput", handler.PostPenyakitHandler)
+	mux.HandleFunc("/lihatDiagnosis", handler.DiagnosisHandler)
 
 	log.Println("Starting web on port 8080")
 
