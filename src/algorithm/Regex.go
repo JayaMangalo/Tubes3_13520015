@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func isSanitizedRegex(text string) bool {
+func IsSanitizedRegex(text string) bool {
 	match1, err := regexp.MatchString("^[ATCG]+$", text)
 	if err == nil {
 		return match1

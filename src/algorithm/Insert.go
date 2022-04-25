@@ -3,7 +3,7 @@ package algorithm
 func insertDiseaseToDatabase(filename, diseasename string) bool {
 	data, success := ReadFile(filename)
 	if success == true {
-		if isSanitizedRegex(data) {
+		if IsSanitizedRegex(data) {
 			//TODO insert into mysql
 		}
 	}

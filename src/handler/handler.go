@@ -1,127 +1,57 @@
 package handler
 
 import (
-	"fmt"
-	"html/template"
-	"io/ioutil"
 	"log"
+	"main/src/algorithm"
 	"main/src/connector"
 	"net/http"
-	"os"
-	"path"
 	"path/filepath"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-func GetInputPenyakitHandler(w http.ResponseWriter, r *http.Request) {
+func TesDNA(c *gin.Context) {
+	nama_penyakit := c.Param("nama_penyakit")
+	nama_pengguna := c.Param("nama_pengguna")
+	dna_squence := c.Param("dna_sequence")
+	currentTime := time.Now()
 
-	method := r.Method
+	date := currentTime.Format("2006-01-02 Mon")
+	log.Println(date)
 
-	if method == "GET" {
-		log.Println("Get ")
-		tmpl, err := template.ParseFiles(path.Join("views", "inputPenyakit.html"))
-		err = tmpl.Execute(w, nil)
-		if err != nil {
-			log.Fatal(err)
-		}
-		return
-	}
+	data := gin.H{"Tanggal": date,
+		"Nama":      nama_pengguna,
+		"Penyakit":  nama_penyakit,
+		"diagnosis": algorithm.LCS(dna_squence, connector.GetSequencePenyakit(nama_penyakit))}
 
-}
-
-func PostPenyakitHandler(w http.ResponseWriter, r *http.Request) {
-
-	method := r.Method
-
-	if method == "POST" {
-		log.Println("POST")
-
-		r.ParseMultipartForm(10 << 20)
-		//namaPenyakit := r.Form.Get("namaPenyakit")
-		uploadedFile, handler, err := r.FormFile("file")
-
-		filename := handler.Filename
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		defer uploadedFile.Close()
-
-		dir, err := os.Getwd()
-		fileLocation := filepath.Join(filepath.Dir(dir), "test", "disease")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		// NOTE: namafilenya ada tambahan angka random (emg bawaan fungsi dan gabisa diubah)
-		tempFile, err := ioutil.TempFile(fileLocation, fmt.Sprintf("%s*.txt", fileNameWithoutExtSliceNotation(filename)))
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		defer tempFile.Close()
-
-		fileBytes, err := ioutil.ReadAll(uploadedFile)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		tempFile.Write(fileBytes)
-
-		http.Redirect(w, r, "/", http.StatusFound)
-		//fmt.Fprintf(w, "Sucessfully uploaded file")
-	}
+	c.IndentedJSON(http.StatusOK, data)
 
 }
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		log.Println("Path not found")
-		http.NotFound(w, r)
+func PostPenyakitHandler(c *gin.Context) {
+
+	nama_penyakit := c.Param("nama_penyakit")
+	dna_squence := c.Param("dna_sequence")
+
+	log.Println(nama_penyakit)
+	log.Println(dna_squence)
+
+	if algorithm.IsSanitizedRegex(dna_squence) {
+		connector.InsertDataPenyakit(nama_penyakit, dna_squence)
 		return
 	}
 
-	tmpl, err := template.ParseFiles(path.Join("views", "index.html"))
+	log.Println("Dna Squence is not correct")
+	//fmt.Fprintf(w, "Sucessfully uploaded file")
 
-	// masih dummy data
-	data := map[string]string{
-		"NamaOrang":    "Andi",
-		"NamaPenyakit": "Covid",
-		"Status":       "Positif",
-	}
-
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
-		return
-	}
-
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
-		return
-	}
 }
 
-// mengambil query string
-func DiagnosisHandler(w http.ResponseWriter, r *http.Request) {
+// ngambil data semua orang
+func DiagnosisHandler(c *gin.Context) {
 	data := connector.GetDataOrang()
-	tmpl, err := template.ParseFiles(path.Join("views", "tes.html"))
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
-		return
-	}
 
-	err = tmpl.Execute(w, data)
-	if err != nil {
-		log.Println(err)
-		http.Error(w, "Ada kesalahan teknis", http.StatusInternalServerError)
-		return
-	}
-
+	c.IndentedJSON(http.StatusOK, data)
 }
 
 func fileNameWithoutExtSliceNotation(fileName string) string {
