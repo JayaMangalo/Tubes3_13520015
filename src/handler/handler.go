@@ -17,14 +17,21 @@ func TesDNA(c *gin.Context) {
 	dna_squence := c.Param("dna_sequence")
 	currentTime := time.Now()
 
-	date := currentTime.Format("2006-01-02 Mon")
+	date := currentTime.Format("02 April 2006")
 	log.Println(date)
 
+	hasil_diagnosis := "False"
+	hasil_LCS := algorithm.LCSPercentage(dna_squence, connector.GetSequencePenyakit(nama_penyakit))
+
+	if hasil_LCS >= 80 {
+		hasil_diagnosis = "True"
+	}
 	data := gin.H{"Tanggal": date,
 		"Nama":      nama_pengguna,
 		"Penyakit":  nama_penyakit,
-		"diagnosis": algorithm.LCS(dna_squence, connector.GetSequencePenyakit(nama_penyakit))}
+		"diagnosis": hasil_diagnosis}
 
+	connector.InsertDataDiagnosis(nama_penyakit, nama_pengguna, hasil_diagnosis, date)
 	c.IndentedJSON(http.StatusOK, data)
 
 }
@@ -49,7 +56,8 @@ func PostPenyakitHandler(c *gin.Context) {
 
 // ngambil data semua orang
 func DiagnosisHandler(c *gin.Context) {
-	data := connector.GetDataOrang()
+	regex := c.Param("query")
+	data := connector.GetDataOrang(regex)
 
 	c.IndentedJSON(http.StatusOK, data)
 }

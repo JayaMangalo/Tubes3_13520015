@@ -3,13 +3,14 @@ package connector
 import (
 	"database/sql"
 	"log"
+	"main/src/algorithm"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type Penyakit struct {
-	Nama string `json:nama`
-	DNA  string `json:dna`
+	Nama string `json:"nama"`
+	DNA  string `json:"dna"`
 }
 type Data struct {
 	Tanggal   string `json:"tanggal"`
@@ -45,7 +46,30 @@ func InsertDataPenyakit(nama_penyakit string, dna_squence string) error {
 	return err
 }
 
-func GetDataOrang() Result {
+func InsertDataDiagnosis(nama_penyakit string, nama_pengguna string, hasil_diagnosis string, tanggal string) error {
+	db, err2 := sql.Open("mysql", "root:rootstima@tcp(127.0.0.1:3306)/test")
+	defer db.Close()
+
+	if err2 != nil {
+		log.Fatal("Unable to open connection to db")
+	}
+	q := "INSERT INTO diagnosis_penyakit VALUES (?,?,?,?)"
+	insert, err := db.Prepare(q)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = insert.Exec(tanggal, nama_pengguna, nama_penyakit, hasil_diagnosis)
+
+	if err != nil {
+		return err
+	}
+
+	return err
+}
+
+func GetDataOrang(patternRegex string) Result {
 	res1 := Result{}
 	res := []Data{}
 	db, err2 := sql.Open("mysql", "root:rootstima@tcp(127.0.0.1:3306)/test")
@@ -60,6 +84,8 @@ func GetDataOrang() Result {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
+	log.Println(algorithm.ReadRegex(patternRegex))
+
 	for results.Next() {
 		var data Data
 		// for each row, scan the result into our tag composite object
@@ -67,6 +93,15 @@ func GetDataOrang() Result {
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
+
+		data_info := data.Tanggal + " " + data.Penyakit
+		regex_info := algorithm.ReadRegex(data_info)
+		regex_search := algorithm.ReadRegex(patternRegex)
+
+		log.Println(regex_info)
+		log.Println(regex_search)
+
+		// bandinginnya gimana?
 
 		res = append(res, data)
 		// and then print out the tag's Name attribute
