@@ -1,10 +1,10 @@
 package algorithm
 
 type SearchRegex struct {
-	day     string
-	month   string
-	year    string
-	disease string
+	Day     string
+	Month   string
+	Year    string
+	Disease string
 }
 
 type RegexFormat struct {

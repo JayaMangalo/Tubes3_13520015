@@ -57,6 +57,7 @@ func PostPenyakitHandler(c *gin.Context) {
 // ngambil data semua orang
 func DiagnosisHandler(c *gin.Context) {
 	regex := c.Param("query")
+	log.Println(regex)
 	data := connector.GetDataOrang(regex)
 
 	c.IndentedJSON(http.StatusOK, data)

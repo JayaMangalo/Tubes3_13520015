@@ -75,6 +75,10 @@ func GetDataOrang(patternRegex string) Result {
 	db, err2 := sql.Open("mysql", "root:rootstima@tcp(127.0.0.1:3306)/test")
 	defer db.Close()
 
+	regex_search := algorithm.ReadRegex(patternRegex)
+
+	log.Println(regex_search.Disease)
+
 	if err2 != nil {
 		log.Fatal("Unable to open connection to db")
 	}
@@ -96,14 +100,18 @@ func GetDataOrang(patternRegex string) Result {
 
 		data_info := data.Tanggal + " " + data.Penyakit
 		regex_info := algorithm.ReadRegex(data_info)
-		regex_search := algorithm.ReadRegex(patternRegex)
 
-		log.Println(regex_info)
-		log.Println(regex_search)
+		day_valid := (regex_info.Day == regex_search.Day) || regex_search.Day == "null"
+		month_valid := (regex_info.Month == regex_search.Month) || regex_search.Month == "null"
+		year_valid := (regex_info.Year == regex_search.Year) || regex_search.Year == "null"
+		disease_valid := (regex_info.Disease == regex_search.Disease) || regex_search.Disease == ""
 
+		log.Println(day_valid, month_valid, year_valid, disease_valid)
 		// bandinginnya gimana?
 
-		res = append(res, data)
+		if (day_valid && month_valid && year_valid && disease_valid) || patternRegex == "all" {
+			res = append(res, data)
+		}
 		// and then print out the tag's Name attribute
 	}
 	res1.Hasil = res

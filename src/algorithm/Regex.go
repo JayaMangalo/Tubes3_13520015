@@ -40,7 +40,7 @@ func ReadRegex(text string) SearchRegex {
 		}
 
 	}
-	date = SearchRegex{"null", "null", "null", strings.TrimSpace(text)}
+	date = SearchRegex{"null", "null", "null", "null"}
 	return date
 
 }
