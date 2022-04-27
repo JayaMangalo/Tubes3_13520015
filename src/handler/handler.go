@@ -26,13 +26,13 @@ func TesDNA(c *gin.Context) {
 	if hasil_LCS >= 80 {
 		hasil_diagnosis = "True"
 	}
-	/*data := gin.H{"Tanggal": date,
-	"Nama":      nama_pengguna,
-	"Penyakit":  nama_penyakit,
-	"diagnosis": hasil_diagnosis}*/
+	data := gin.H{"Tanggal": date,
+		"Nama":      nama_pengguna,
+		"Penyakit":  nama_penyakit,
+		"diagnosis": hasil_diagnosis}
 
 	connector.InsertDataDiagnosis(nama_penyakit, nama_pengguna, hasil_diagnosis, date)
-	//c.IndentedJSON(http.StatusOK, data)
+	c.IndentedJSON(http.StatusOK, data)
 
 }
 
