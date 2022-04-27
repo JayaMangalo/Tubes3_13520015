@@ -37,7 +37,7 @@ func main() {
 	router.Use(static.Serve("/", static.LocalFile("./front-end/src/pages", true)))
 	router.GET("/diagnosis/:query", handler.DiagnosisHandler)
 	router.POST("/inputPenyakit/:nama_penyakit/:dna_sequence", handler.PostPenyakitHandler)
-	router.GET("/tesDNA/:nama_pengguna/:nama_penyakit/:dna_sequence", handler.TesDNA)
+	router.POST("/tesDNA/:nama_pengguna/:nama_penyakit/:dna_sequence", handler.TesDNA)
 
 	// Start and run the server
 	router.Run("localhost:8080")
