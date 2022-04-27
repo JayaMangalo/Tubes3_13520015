@@ -79,7 +79,9 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 				year = "null"
 			}
 		}
-
+		if res == "" {
+			res = "null"
+		}
 		var x = SearchRegex{day, month, year, res}
 		return x, true
 	} else {
