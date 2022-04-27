@@ -13,10 +13,11 @@ type Penyakit struct {
 	DNA  string `json:"dna"`
 }
 type Data struct {
-	Tanggal   string `json:"tanggal"`
-	Nama      string `json:"nama"`
-	Penyakit  string `json:"penyakit"`
-	Diagnosis string `json:"diagnosis"`
+	Tanggal    string `json:"tanggal"`
+	Nama       string `json:"nama"`
+	Penyakit   string `json:"penyakit"`
+	Diagnosis  string `json:"diagnosis"`
+	Persentase string `json:"persentase"`
 }
 
 type Result struct {
@@ -46,21 +47,21 @@ func InsertDataPenyakit(nama_penyakit string, dna_squence string) error {
 	return err
 }
 
-func InsertDataDiagnosis(nama_penyakit string, nama_pengguna string, hasil_diagnosis string, tanggal string) error {
+func InsertDataDiagnosis(nama_penyakit string, nama_pengguna string, hasil_diagnosis string, tanggal string, persentase int) error {
 	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
 	defer db.Close()
 
 	if err2 != nil {
 		log.Fatal("Unable to open connection to db")
 	}
-	q := "INSERT INTO diagnosis_penyakit VALUES (?,?,?,?)"
+	q := "INSERT INTO diagnosis_penyakit VALUES (?,?,?,?,?)"
 	insert, err := db.Prepare(q)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = insert.Exec(tanggal, nama_pengguna, nama_penyakit, hasil_diagnosis)
+	_, err = insert.Exec(tanggal, nama_pengguna, nama_penyakit, hasil_diagnosis, persentase)
 
 	if err != nil {
 		return err
@@ -93,7 +94,7 @@ func GetDataOrang(patternRegex string) Result {
 	for results.Next() {
 		var data Data
 		// for each row, scan the result into our tag composite object
-		err = results.Scan(&data.Tanggal, &data.Nama, &data.Penyakit, &data.Diagnosis)
+		err = results.Scan(&data.Tanggal, &data.Nama, &data.Penyakit, &data.Diagnosis, &data.Persentase)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}
@@ -104,7 +105,7 @@ func GetDataOrang(patternRegex string) Result {
 		day_valid := (regex_info.Day == regex_search.Day) || regex_search.Day == "null"
 		month_valid := (regex_info.Month == regex_search.Month) || regex_search.Month == "null"
 		year_valid := (regex_info.Year == regex_search.Year) || regex_search.Year == "null"
-		disease_valid := (regex_info.Disease == regex_search.Disease) || regex_search.Disease == ""
+		disease_valid := (regex_info.Disease == regex_search.Disease) || regex_search.Disease == "null"
 
 		log.Println(day_valid, month_valid, year_valid, disease_valid)
 		// bandinginnya gimana?

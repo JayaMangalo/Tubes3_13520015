@@ -27,11 +27,12 @@ func TesDNA(c *gin.Context) {
 		hasil_diagnosis = "True"
 	}
 	data := gin.H{"Tanggal": date,
-		"Nama":      nama_pengguna,
-		"Penyakit":  nama_penyakit,
-		"diagnosis": hasil_diagnosis}
+		"Nama":       nama_pengguna,
+		"Penyakit":   nama_penyakit,
+		"diagnosis":  hasil_diagnosis,
+		"persentase": hasil_LCS}
 
-	connector.InsertDataDiagnosis(nama_penyakit, nama_pengguna, hasil_diagnosis, date)
+	connector.InsertDataDiagnosis(nama_penyakit, nama_pengguna, hasil_diagnosis, date, hasil_LCS)
 	c.IndentedJSON(http.StatusOK, data)
 
 }

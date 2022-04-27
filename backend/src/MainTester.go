@@ -4,7 +4,7 @@ import (
 	"main/src/handler"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware/v2"
-	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,7 +34,10 @@ func main() {
 
 	router := gin.Default()
 
-	router.Use(static.Serve("/", static.LocalFile("./front-end/src/pages", true)))
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		AllowedMethods:  []string{"GET", "POST"},
+	}))
 	router.GET("/diagnosis/:query", handler.DiagnosisHandler)
 	router.POST("/inputPenyakit/:nama_penyakit/:dna_sequence", handler.PostPenyakitHandler)
 	router.POST("/tesDNA/:nama_pengguna/:nama_penyakit/:dna_sequence", handler.TesDNA)

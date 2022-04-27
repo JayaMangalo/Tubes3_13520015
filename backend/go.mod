@@ -7,6 +7,8 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 )
 
+require github.com/gin-contrib/cors v1.3.1 // indirect
+
 require (
 	github.com/auth0/go-jwt-middleware/v2 v2.0.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
