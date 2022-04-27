@@ -1,6 +1,7 @@
 import "../styles/Home.css";
 import { Box, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Home = () => {
 
@@ -9,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data: hasil} = await axios.get(`localhost:8080/diagnosis/all`);
+      const {data: hasil} = await axios.get(`http://localhost:8080/diagnosis/all`);
       setDatas(hasil.Hasil);
       
     };
@@ -23,14 +24,14 @@ const Home = () => {
     if(searchKeyword){
       // TODO : get data from API with search keyword
       const fetchData = async () => {
-        const {data: hasil} = await axios.get(`localhost:8080/diagnosis/${searchKeyword}`);
+        const {data: hasil} = await axios.get(`http://localhost:8080/diagnosis/${searchKeyword}`);
         setDatas(hasil.Hasil);
       };
       fetchData();
     }else{
       // TODO : get data from API
       const fetchData = async () => {
-        const {data: hasil} = await axios.get(`localhost:8080/diagnosis/all`);
+        const {data: hasil} = await axios.get(`http://localhost:8080/diagnosis/all`);
         setDatas(hasil.Hasil);
         
       };
