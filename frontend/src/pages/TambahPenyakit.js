@@ -3,13 +3,30 @@ import { useState } from "react";
 import "../styles/TambahPenyakit.css";
 
 const TambahPenyakit = () => {
+
+  
   const [isHasil, setIsHasil] = useState(false);
   const [hasil, setHasil] = useState();
+  const [fileChoosen, setFileChoosen] = useState(false);
+  const [currFile, setCurrFile] = useState();
 
-  const buttonSubmitHandler = (e) => {
-    e.preventDefault();
+  const namaPenyakit = document.getElementById("namaPenyakit");
+  const fileInput = document.getElementById("fileInput");
+
+  const buttonSubmitHandler = () => {
 
     // TODO : submit data to API
+    console.log(fileInput.files[0]);
+    
+  };
+
+  const changeFileInputHandler = (e) => {
+    if(e.target.files[0]){
+      setFileChoosen(true);
+      setCurrFile(e.target.files[0].name);
+    }else{
+      setFileChoosen(false);
+    }
   };
 
   return (
@@ -46,7 +63,7 @@ const TambahPenyakit = () => {
           }}
         >
           <TextField
-            id="nama-penyakit"
+            id="namaPenyakit"
             label="Nama Penyakit"
             variant="outlined"
             sx={{
@@ -77,9 +94,8 @@ const TambahPenyakit = () => {
             color="primary"
             sx={{ marginLeft: "4rem" }}
           >
-            {""}
-            Upload a file
-            <input type="file" hidden />
+            {fileChoosen ? `${currFile}` : "Pilih File"}
+            <input type="file" id="fileInput" hidden onChange={changeFileInputHandler}/>
           </Button>
         </Box>
         <Box
@@ -89,7 +105,7 @@ const TambahPenyakit = () => {
             flexDirection: "row",
           }}
         >
-          <Button label="Submit" variant="outlined">
+          <Button label="Submit" variant="outlined" onClick={buttonSubmitHandler}>
             Submit
           </Button>
         </Box>

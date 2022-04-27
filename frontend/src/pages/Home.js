@@ -20,12 +20,13 @@ const Home = () => {
   // TODO : get data from API
   const getDataHandler = (e) => {
     const searchKeyword = e.target.value;
-
+    setDatas([])
     if(searchKeyword){
       // TODO : get data from API with search keyword
       const fetchData = async () => {
         const {data: hasil} = await axios.get(`http://localhost:8080/diagnosis/${searchKeyword}`);
         setDatas(hasil.Hasil);
+        console.log(hasil.Hasil);
       };
       fetchData();
     }else{
@@ -33,6 +34,7 @@ const Home = () => {
       const fetchData = async () => {
         const {data: hasil} = await axios.get(`http://localhost:8080/diagnosis/all`);
         setDatas(hasil.Hasil);
+        console.log(hasil.Hasil);
         
       };
       fetchData();
@@ -98,6 +100,7 @@ const Home = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
+            flexDirection: "column",
           }}
         >
           {datas.map((data) => (
@@ -109,6 +112,7 @@ const Home = () => {
                 borderRadius: "10px",
                 backgroundColor: "white",
                 width: "100%",
+                marginBottom: "1rem",
               }}
             >
               <h3>
