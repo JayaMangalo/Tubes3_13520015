@@ -1,6 +1,7 @@
 import { Button, Box, TextField } from "@mui/material";
 import { useState } from "react";
 import "../styles/TambahPenyakit.css";
+import axios from 'axios'
 
 const TambahPenyakit = () => {
 
@@ -17,6 +18,22 @@ const TambahPenyakit = () => {
 
     // TODO : submit data to API
     console.log(fileInput.files[0]);
+    var f = fileInput.files[0]
+    if (f) {
+      var r = new FileReader();
+      r.onload = function(e) { 
+          var contents = e.target.result;             
+          console.log(contents)
+          const insertData = async () => {
+            await axios.post(`http://localhost:8080/inputPenyakit/${namaPenyakit.value}/${contents}`);
+          };
+          insertData();
+          alert("Penyakit berhasil di upload");
+      }
+      r.readAsText(f);
+    } else { 
+      alert("Failed to load file");
+    }
     
   };
 
