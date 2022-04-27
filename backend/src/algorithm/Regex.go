@@ -3,6 +3,7 @@ package algorithm
 import (
 	"regexp"
 	"strings"
+	"fmt"
 )
 
 func IsSanitizedRegex(text string) bool {
@@ -23,18 +24,19 @@ func ReadRegex(text string) SearchRegex {
 	regexformats[4] = RegexFormat{"\\d{2}-.+-\\d{4}", "-"}
 	regexformats[5] = RegexFormat{"\\d{2}[ \t].+[ \t]+\\d{4}", " "}
 
-	regexformats[6] = RegexFormat{"D+/\\d{4}", "/"}
-	regexformats[7] = RegexFormat{"D+-\\d{4}", "-"}
-	regexformats[8] = RegexFormat{"D+[ \t]+\\d{4}", " "}
+	regexformats[6] = RegexFormat{".+/\\d{4}", "/"}
+	regexformats[7] = RegexFormat{".+-\\d{4}", "-"}
+	regexformats[8] = RegexFormat{".+[ \t]+\\d{4}", " "}
 
 	regexformats[9] = RegexFormat{"^\\d{4}", "/$"}
 
-	regexformats[10] = RegexFormat{".+ ", " "}
+	regexformats[10] = RegexFormat{".+", " "}
 
 	var date SearchRegex
 	var get bool
 	for _, v := range regexformats {
 		date, get = StringRegex(text, v.regex, v.splitter)
+		fmt.Println(v.regex)
 		if get {
 			return date
 		}
@@ -47,14 +49,17 @@ func ReadRegex(text string) SearchRegex {
 func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 	regexcompiled := regexp.MustCompile(regex)
 
-	// fmt.Println(regexcompiled)
+	
 	if regexcompiled.MatchString(text) {
+		fmt.Println("TEXT :",text )
 		date := regexcompiled.FindString(text)
 		res := strings.TrimSpace(regexcompiled.ReplaceAllString(text, "${1} $2"))
 
 		datesplitted := strings.Split(date, splitter)
+		fmt.Println("DATESPLITTER = ",len(datesplitted))
 		if splitter == " " {
 			datesplitted = strings.Fields(date)
+
 		}
 
 		var day string
@@ -79,7 +84,16 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 				year = "null"
 			}
 		}
-
+		// else{
+		// 	day = "null"
+		// 	month = "null"
+		// 	year = "null"
+		// 	res = strings.TrimSpace(text)
+		// }
+		if res ==""{
+			res = "null"
+		}
+		fmt.Println("TEXT :",text )
 		var x = SearchRegex{day, month, year, res}
 		return x, true
 	} else {
