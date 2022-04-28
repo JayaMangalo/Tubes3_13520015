@@ -171,7 +171,7 @@ const TesDNA = () => {
           >
             <h3>
               {hasil.Tanggal} - {hasil.Nama} - {hasil.Penyakit} -{" "}
-              {hasil.diagnosis} - {hasil.persentase}
+              {hasil.diagnosis} - {hasil.persentase}%
             </h3>
           </Box>
         ) : null}
