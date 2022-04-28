@@ -15,23 +15,26 @@ const TambahPenyakit = () => {
 
     // TODO : submit data to API
     console.log(fileInput.files[0]);
+    try{
     var f = fileInput.files[0]
-    if (f) {
-      var r = new FileReader();
-      r.onload = function(e) { 
-          var contents = e.target.result;             
-          console.log(contents)
-          const insertData = async () => {
-            await axios.post(`http://localhost:8080/inputPenyakit/${namaPenyakit.value}/${contents}`);
-          };
-          insertData();
-          alert("Penyakit berhasil di upload");
+      if (f) {
+        var r = new FileReader();
+        r.onload = function(e) { 
+            var contents = e.target.result;             
+            console.log(contents)
+            const insertData = async () => {
+              await axios.post(`http://localhost:8080/inputPenyakit/${namaPenyakit.value}/${contents}`);
+            };
+            insertData();
+            alert("Penyakit berhasil di upload");
+        }
+        r.readAsText(f);
+      } else { 
+        alert("Failed to load file");
       }
-      r.readAsText(f);
-    } else { 
-      alert("Failed to load file");
+    }catch(e){
+      alert("Masukan data terlebih dahulu");
     }
-    
   };
 
   const changeFileInputHandler = (e) => {

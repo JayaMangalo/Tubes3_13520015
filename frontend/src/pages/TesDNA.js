@@ -15,25 +15,29 @@ const TesDNA = () => {
 
   const buttonSubmitHandler = () => {
     // TODO : submit data to API
-    var f = fileInputPengguna.files[0];
-    if (f && namaPengguna.value && prediksiPenyakit.value) {
-      var r = new FileReader();
-      r.onload = function (e) {
-        var contents = e.target.result;
-        console.log(contents);
-        const tesData = async () => {
-          const { data: hasilTes } = await axios.post(
-            `http://localhost:8080/tesDNA/${namaPengguna.value}/${prediksiPenyakit.value}/${contents}`
-          );
-          setHasil(hasilTes);
-          console.log(hasilTes);
-          setIsHasil(true);
+    try{
+      var f = fileInputPengguna.files[0];
+      if (f && namaPengguna.value && prediksiPenyakit.value) {
+        var r = new FileReader();
+        r.onload = function (e) {
+          var contents = e.target.result;
+          console.log(contents);
+          const tesData = async () => {
+            const { data: hasilTes } = await axios.post(
+              `http://localhost:8080/tesDNA/${namaPengguna.value}/${prediksiPenyakit.value}/${contents}`
+            );
+            setHasil(hasilTes);
+            console.log(hasilTes);
+            setIsHasil(true);
+          };
+          tesData();
+          alert("Test berhasil");
         };
-        tesData();
-        alert("Test berhasil");
-      };
-      r.readAsText(f);
-    } else {
+        r.readAsText(f);
+      } else {
+        alert("Isi semua data terlebih dahulu");
+      }
+    }catch(e){
       alert("Isi semua data terlebih dahulu");
     }
   };
