@@ -112,7 +112,7 @@ const TesDNA = () => {
             color="primary"
             sx={{ marginLeft: "4rem" }}
           >
-            {fileChoosen ? `${currFile.name}` : "Pilih File"}
+            {fileChoosen ? `${currFile}` : "Pilih File"}
             <input
               type="file"
               id="fileInputPengguna"
