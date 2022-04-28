@@ -5,9 +5,6 @@ import axios from 'axios'
 
 const TambahPenyakit = () => {
 
-  
-  const [isHasil, setIsHasil] = useState(false);
-  const [hasil, setHasil] = useState();
   const [fileChoosen, setFileChoosen] = useState(false);
   const [currFile, setCurrFile] = useState();
 
@@ -127,38 +124,6 @@ const TambahPenyakit = () => {
           </Button>
         </Box>
       </Box>
-      {isHasil ? (
-        <Box
-          component="div"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            //   alignItems: "left",
-            flexDirection: "column",
-            border: "3px black",
-            borderRadius: "10px",
-            height: "auto",
-            width: "50%",
-            padding: "1rem",
-            backgroundColor: "lightblue",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              border: "1px black",
-              borderRadius: "10px",
-              backgroundColor: "white",
-              width: "100%",
-            }}
-          >
-            <h3>
-              {hasil.tanggal} - {hasil.nama} - {hasil.penyakit} - {hasil.hasil}
-            </h3>
-          </Box>
-        </Box>
-      ) : null}
     </div>
   );
 };
