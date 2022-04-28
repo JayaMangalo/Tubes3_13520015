@@ -116,7 +116,7 @@ const Home = () => {
               }}
             >
               <h3>
-                {data.tanggal} - {data.nama} - {data.penyakit} - {data.diagnosis}
+                {data.tanggal} - {data.nama} - {data.penyakit} - {data.diagnosis} - {data.persentase}%
               </h3>
             </Box>
           ))}
