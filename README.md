@@ -23,7 +23,7 @@ Aplikasi _DNA Pattern Matching_ bekerja dengan menggunakan algoritma _String Mat
 ## Usage
 - jalankan API backend dengan membuka folder backend/src kemudian jalankan command:
 ```
-    go run MainTester.go
+    go run Main.go
 ```
 - jalankan aplikasi dengan membuka folder frontend kemudian jalankan command:
 ```
