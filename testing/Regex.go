@@ -113,8 +113,8 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 		return x, false
 	}
 }
-func main(){
+// func main(){
 	
-	result := ReadRegex(" HIV ")
-	fmt.Print(result)
-}
+// 	result := ReadRegex(" HIV ")
+// 	fmt.Print(result)
+// }
