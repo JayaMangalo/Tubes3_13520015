@@ -1,5 +1,3 @@
-package algorithm
-
 type SearchRegex struct {
 	Day     string
 	Month   string

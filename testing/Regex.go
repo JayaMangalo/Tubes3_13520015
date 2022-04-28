@@ -1,10 +1,22 @@
-package algorithm
+package main
 
 import (
 	"regexp"
 	"strings"
 	"fmt"
 )
+
+type SearchRegex struct {
+	Day     string
+	Month   string
+	Year    string
+	Disease string
+}
+
+type RegexFormat struct {
+	regex    string
+	splitter string
+}
 
 func IsSanitizedRegex(text string) bool {
 	match1, err := regexp.MatchString("^[ATCG]+$", text)
@@ -79,15 +91,17 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 			if regexyear.MatchString(datesplitted[0]) {
 				month = "null"
 				year = datesplitted[0]
-			} else if(checkifDate(datesplitted[0])){
+			} else {
 				month = datesplitted[0]
 				year = "null"
-			}else{
-				month = "null"
-				year = "null"
-				res = strings.TrimSpace(datesplitted[0])
 			}
 		}
+		// else{
+		// 	day = "null"
+		// 	month = "null"
+		// 	year = "null"
+		// 	res = strings.TrimSpace(text)
+		// }
 		if res ==""{
 			res = "null"
 		}
@@ -98,4 +112,9 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 		var x = SearchRegex{"null", "null", "null", "null"}
 		return x, false
 	}
+}
+func main(){
+	
+	result := ReadRegex(" HIV ")
+	fmt.Print(result)
 }
