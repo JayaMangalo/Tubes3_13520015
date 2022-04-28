@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+//Mengecek apakah input sesuai DNA
 func IsSanitizedRegex(text string) bool {
 	match1, err := regexp.MatchString("^[ATCG]+$", text)
 	if err == nil {
@@ -14,6 +15,7 @@ func IsSanitizedRegex(text string) bool {
 	return false
 }
 
+//Mengecek text dengan format regex yang disediakan dan fungsi StringRegex
 func ReadRegex(text string) SearchRegex {
 	var regexformats [11]RegexFormat
 	regexformats[0] = RegexFormat{"\\d{2}/\\d{2}/\\d{4}", "/"}
@@ -46,10 +48,10 @@ func ReadRegex(text string) SearchRegex {
 	return date
 
 }
+//Memecah informasi text dengan regex kedalam SearchRegex yang lalu di-return bersama bool yang menyatakan apakah regex valid.
 func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 	regexcompiled := regexp.MustCompile(regex)
 
-	
 	if regexcompiled.MatchString(text) {
 		fmt.Println("TEXT :",text )
 		date := regexcompiled.FindString(text)
@@ -59,9 +61,7 @@ func StringRegex(text, regex, splitter string) (SearchRegex, bool) {
 		fmt.Println("DATESPLITTER = ",len(datesplitted))
 		if splitter == " " {
 			datesplitted = strings.Fields(date)
-
 		}
-
 		var day string
 		var month string
 		var year string

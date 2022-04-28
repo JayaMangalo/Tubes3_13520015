@@ -1,5 +1,6 @@
 package algorithm
 
+//fungsi text searching dengan algo KMP
 func KMP(text, pattern string) int {
 	var n int = len(text)
 	var m int = len(pattern)
@@ -24,6 +25,7 @@ func KMP(text, pattern string) int {
 	return -1
 }
 
+//fungsi bantuan untuk KMP
 func computeFail(pattern string) []int {
 	var m int = len(pattern)
 

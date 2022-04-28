@@ -1,5 +1,6 @@
 package algorithm
 
+//fungsi text searching dengan algo BoyerMoore
 func BoyerMoore(text, pattern string) int {
 	var last [128]int = buildLast(pattern)
 	var n int = len(text)
@@ -31,7 +32,7 @@ func BoyerMoore(text, pattern string) int {
 	}
 	return -1
 }
-
+//fungsi bantuan untuk BoyerMoore
 func buildLast(pattern string) [128]int {
 	var last [128]int
 	for i := 0; i < 128; i++ {
