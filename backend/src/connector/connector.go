@@ -25,7 +25,7 @@ type Result struct {
 }
 
 func InsertDataPenyakit(nama_penyakit string, dna_squence string) error {
-	db, err2 := sql.Open("mysql", "root:rootstima@tcp(127.0.0.1:3306)/test")
+	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
 	defer db.Close()
 
 	if err2 != nil {
