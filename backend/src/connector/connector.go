@@ -25,7 +25,7 @@ type Result struct {
 }
 
 func InsertDataPenyakit(nama_penyakit string, dna_squence string) error {
-	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
+	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/db_stima")
 	defer db.Close()
 
 	if err2 != nil {
@@ -48,7 +48,7 @@ func InsertDataPenyakit(nama_penyakit string, dna_squence string) error {
 }
 
 func InsertDataDiagnosis(nama_penyakit string, nama_pengguna string, hasil_diagnosis string, tanggal string, persentase int) error {
-	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
+	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/db_stima")
 	defer db.Close()
 
 	if err2 != nil {
@@ -73,7 +73,7 @@ func InsertDataDiagnosis(nama_penyakit string, nama_pengguna string, hasil_diagn
 func GetDataOrang(patternRegex string) Result {
 	res1 := Result{}
 	res := []Data{}
-	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
+	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/db_stima")
 	defer db.Close()
 
 	regex_search := algorithm.ReadRegex(patternRegex)
@@ -120,7 +120,7 @@ func GetDataOrang(patternRegex string) Result {
 }
 
 func GetSequencePenyakit(penyakit string) string {
-	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/test")
+	db, err2 := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/db_stima")
 	defer db.Close()
 	res := ""
 

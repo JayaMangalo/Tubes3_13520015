@@ -10,4 +10,4 @@ def makeDNA(size):
     print(dna)
 
 if __name__ == "__main__":
-    makeDNA(30)
+    makeDNA(15)

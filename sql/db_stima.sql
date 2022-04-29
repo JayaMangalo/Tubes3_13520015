@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `diagnosis_penyakit` (
   PRIMARY KEY (`tanggal`,`nama`,`penyakit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table db_stima.diagnosis_penyakit: ~6 rows (approximately)
+-- Dumping data for table db_stima.diagnosis_penyakit: ~9 rows (approximately)
 /*!40000 ALTER TABLE `diagnosis_penyakit` DISABLE KEYS */;
 INSERT INTO `diagnosis_penyakit` (`tanggal`, `nama`, `penyakit`, `diagnosis`, `similarity`) VALUES
 	('13 April 2022', 'Alan', 'Diabetes', 'True', 90),
@@ -36,6 +36,8 @@ INSERT INTO `diagnosis_penyakit` (`tanggal`, `nama`, `penyakit`, `diagnosis`, `s
 	('26 April 2022', 'Gerald', 'HIV', 'True', 90),
 	('26 April 2022', 'Jaya', 'HIV', 'True', 90),
 	('27 April 2022', 'Jaya', 'HIV', 'True', 90),
+	('29 April 2022', 'Aldwin', 'Flu', 'False', 26),
+	('29 April 2022', 'Gerald', 'Flu', 'True', 100),
 	('29 April 2022', 'Jaya', 'Covid', 'False', 23);
 /*!40000 ALTER TABLE `diagnosis_penyakit` ENABLE KEYS */;
 
@@ -50,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `penyakit` (
 /*!40000 ALTER TABLE `penyakit` DISABLE KEYS */;
 INSERT INTO `penyakit` (`nama`, `sequence_dna`) VALUES
 	('Covid', 'TCGTGGTAGCGGGGCGTACACGTCCCTCCT'),
+	('Flu', 'AAGGTCAACCCTGCACCGGAACC'),
 	('HIV', 'CCGGTGCCCGGAATCTAGATCTGTGGCGCC'),
 	('Polio', 'CGAGAATGGAGTTGGAGAACCGATGTAGAA'),
 	('Sinusitis', 'TTTATCCCCGGATTCCAGCGCTGGGATAAG');
