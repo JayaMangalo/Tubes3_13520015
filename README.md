@@ -1,6 +1,6 @@
 # Tugas Besar 3 IF2211 Strategi Algoritma
 > Aplikasi Algoritma _String Matching_ dan _Regular Expression_ dalam _DNA Pattern Matching_.
-> Demo [_link_](https://www.example.com). 
+> Demo [_link_](https://youtu.be/wPTZJW3Qeyk). 
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -21,6 +21,7 @@ Aplikasi _DNA Pattern Matching_ bekerja dengan menggunakan algoritma _String Mat
 
 
 ## Usage
+- Lihat file connector.go pada .../backend/src/connector ubah password mysql sesuai password mysql pada perangkat pada baris 28, 51, 76
 - jalankan API backend dengan membuka folder backend/src kemudian jalankan command:
 ```
     go run Main.go
